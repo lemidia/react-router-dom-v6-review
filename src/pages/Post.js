@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 function Post() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const [post, setPost] = useState({});
   const [comments, setComments] = useState([]);
@@ -34,7 +35,9 @@ function Post() {
 
   return (
     <div>
-      <h1>Post #{post.id}</h1>
+      <h1>
+        Post #{post.id} / path : {pathname}
+      </h1>
       <h2>Post Title : {post.title}</h2>
       <hr />
       <h3>{post.body}</h3>
@@ -50,7 +53,6 @@ function Post() {
         </>
       ))}
       <hr />
-
       <br />
       <button
         onClick={() => {
