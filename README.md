@@ -6,7 +6,7 @@ Several code changes have been made with the major upgrade from version 5 to ver
 
 버전 5에서 버전 6으로의 주요 업그레이드와 함께 몇 가지 코드가 변경되었으며 이에 대해서 간략하게 다룹니다.
 
-And I used {JSON} Placeholder which is free fake API for testing and prototyping.
+This tutorial use {JSON} Placeholder which is free fake API for testing and prototyping.
 
 예제 코드에서는 유명한 json placeholder API를 사용합니다.  
 https://jsonplaceholder.typicode.com/
@@ -16,7 +16,8 @@ https://jsonplaceholder.typicode.com/
 It goes same as before. Nothing change.  
 React Router Dom의 최상위 컴포넌트인 Router는 기존과 같게 유지.
 
-Routes를 포함하여 다를 컴포넌트들을 포함할 수 있다. (Nav or Footer Etc...)
+Routes and other components can go within Router.
+Routes를 포함하여 다른 컴포넌트들을 포함할 수 있다. (Nav or Footer Etc...)
 
 **Example**
 
@@ -41,35 +42,41 @@ Routes를 포함하여 다를 컴포넌트들을 포함할 수 있다. (Nav or F
 Switch has been replaced with Routes.  
 더 이상 Switch는 존재하지 않고, Routes라는 컴포넌트로 대체
 
-**주의! Route와 Fragment를 제외한 다른 컴포넌트는 올 수 없다.**
-**All component children of <Routes> must be a <Route> or <React.Fragment>**
+Components except Route and React.Fragment cannot go within Routes.  
+Route와 Fragment를 제외한 다른 컴포넌트는 올 수 없다.  
+Error Code : All component children of <Routes> must be a <Route> or <React.Fragment>
 
 ## Route
+
+A component that is basically used to allocate individual pages.  
+Write the desired address to path and JSX component to element.
 
 기본적으로 개별 페이지를 할당할 때 쓰는 컴포넌트.  
 path에 원하는 주소를, element에는 JSX 컴포넌트를 기입하여 준다.
 
 **Example**
 
+'component' property has been replaced with 'element' property
+기존의 component를 명시하는 property는 element로 대체되었다.
+
 ```javascript
 <Route path='pathname' element=<JSX Component>/>
 ```
-
-'component' property has been replaced with 'element' property
-기존의 component를 명시하는 property는 element로 대체되었다.
 
 No longer using 'exact'  
 더 이상 'exact' 를 쓰지 않는다.
 
 **Usage**
 
-- 특정 id를 가지는 포스트의 페이로의 라우팅
+Routing to the page of a post with a specific id.  
+특정 id를 가지는 포스트의 페이지로의 라우팅
 
 ```javascript
 <Route path="/posts/:id" element={<Post />} />
 ```
 
-- 어플리케이션에서 사전에 정의된 라우팅 포인트외의 다른 모든 곳 (404 페이지)
+Anywhere other than predefined routing points in the application (page 404).  
+어플리케이션에서 사전에 정의된 라우팅 포인트외의 다른 모든 곳 (404 페이지)
 
 ```javascript
 <Route path="*" element={<NotFound />} />
@@ -125,26 +132,37 @@ const navigate = useNavigate();
 
 ## useParams
 
-페이지 주소 또는 url에서의 키와 값으로 되어있는 특정 매개변수의 값을 가져올 수 있다.
+You can get the parameter value (:parameter) specified in the route.  
+라우트에서 명시한 매개변수 값(:parameter)을 가져올 수 있다.
 
+Below is a route to a page with a specific id value.  
 아래는 특정 id 값을 가지는 포스트로의 페이지로 가는 Route 이다.
+
+**Example**
+
+:id를 사용함으로써 id를 키값으로 하는 url로의 페이지를 라우팅할 수 있다.
+By using :id you can route a page to a url with specific parameters.
 
 ```javascript
 <Route path="/posts/:id" element={<Post />} />
 ```
 
-그렇다면 위의 :id의 id를 키로하여 Post 페이지에서는 다음과 같이 값을 가져올 수 있게된다.
+Use useParams to extract the value of a specific parameter. (in this case : id)  
+useParams를 사용하여 특정 패러매터의 값을 추출한다. (여기서는 id)
 
 ```javascript
 const { id } = useParams();
 ```
 
-그리하여 id와 관련되는 특정 제품이나 포스트의 정보를 fetch하면 되겠다. (예제 참고)
+You can fetch information of a specific product or post related to id.  
+id와 관련되는 특정 제품이나 포스트의 정보를 fetch할 수 있다. (예제 참고)
 
-이와 같이 특정 id를 갖는 제품이나 포스트를 다루는 개별 페이지를 다룰 때 매우 유용하다.
+This is very useful when dealing with individual pages dealing with products or posts with a specific id.  
+특정 id를 갖는 제품이나 포스트를 다루는 개별 페이지를 다룰 때 매우 유용하다.
 
 ## useLocation
 
+You can get the current page url or pathname.  
 현재 페이지 url 또는 path를 가져올 수 있다.
 
 **Usage**
